@@ -15,13 +15,13 @@ RUN apk add --update --no-cache libzip-dev
 RUN apk add --update --no-cache make
 RUN apk add --update --no-cache pcre-dev
 
-RUN docker-php-ext-enable imagick
 RUN docker-php-ext-install exif
 RUN docker-php-ext-install gd
-RUN docker-php-ext-install imagick
 RUN docker-php-ext-install intl
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install zip
+
+RUN docker-php-ext-enable mysqli
 
 RUN kill -USR2 1
 
