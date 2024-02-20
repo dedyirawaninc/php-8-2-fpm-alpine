@@ -1,40 +1,28 @@
-FROM node:14-alpine
+FROM php:8.2-fpm-alpine
 
 LABEL maintainer="Dedy Irawan <dedy.irawan.inc@gmail.com>"
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+RUN apk update
+RUN apk upgrade
 
-RUN mkdir -p /home/node/app
-WORKDIR /home/node/app
+RUN apk add --update --no-cache autoconf
+RUN apk add --update --no-cache g++
+RUN apk add --update --no-cache imagemagick-dev
+RUN apk add --update --no-cache icu-dev
+RUN apk add --update --no-cache libpng-dev
+RUN apk add --update --no-cache libtool
+RUN apk add --update --no-cache libzip-dev
+RUN apk add --update --no-cache make
+RUN apk add --update --no-cache pcre-dev
 
-COPY css css
-COPY fonts fonts
-COPY img img
-COPY js js
-COPY portfolio portfolio
-COPY scss scss
-COPY static static
-COPY *.html ./
-COPY *.js ./
-COPY *.json ./
+RUN docker-php-ext-install exif
+RUN docker-php-ext-install gd
+RUN docker-php-ext-install intl
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install zip
 
-RUN apk add --no-cache --virtual native-deps
-RUN apk add --no-cache --virtual curl g++ gcc libgcc libstdc++ linux-headers make py-pip yarn
+RUN docker-php-ext-enable mysqli
 
-RUN npm config set unsafe-perm true \
-  && npm install --quiet gulp node-gyp -g \
-  && npm install --quiet \
-  && npm config set unsafe-perm false
+RUN kill -USR2 1
 
-RUN apk add --no-cache tzdata
-ENV TZ=Asia/Jakarta
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-RUN npm rebuild node-sass
-
-RUN gulp --version
-
-EXPOSE 3000 3001
-
-CMD ["gulp"]
+CMD ["php-fpm"]

@@ -1,15 +1,8 @@
 version: '2'
-networks:
-  default_network:
-    driver: bridge
 services:
-  dedycated:
-    container_name: dedycated
-    image: ghcr.io/dedycatedinc/dedycated:main
-    ports:
-      - 3010:3000/tcp
-      - 3011:3001/tcp
-    networks:
-      - default_network
+  php-fpm:
+    image: dedyirawaninc/php-8-2-fpm-alpine
+    environment:
+      TZ: Asia/Jakarta
     stdin_open: true
     tty: true

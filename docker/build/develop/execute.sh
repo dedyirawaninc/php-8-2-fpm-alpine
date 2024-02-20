@@ -16,7 +16,7 @@ cd $BASEDIR00 && cd ../../../
 BUILD="Dockerfile"
 COMPA=$(echo $FILE | cut -d '-' -f 1)
 GROUP=$(echo $FILE | cut -d '-' -f 2)
-IMAGE=ghcr.io/dedycatedinc/${CURRDIR03//"-"/"_"} && echo $IMAGE
+IMAGE=dedyirawaninc/${CURRDIR03//"-"/"_"} && echo $IMAGE
 if [ "$COMPA" != "$GROUP" ]; then
   BUILD=${BUILD}-${GROUP}
   IMAGE=${IMAGE}_${GROUP}:${CURRDIR00}
