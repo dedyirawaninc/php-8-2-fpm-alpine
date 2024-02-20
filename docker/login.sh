@@ -13,5 +13,5 @@ TYPE=$(uname -s | cut -d '_' -f 1) && echo [$TYPE]
 if [ "$TYPE" == "Darwin" ]; then
   security -v unlock-keychain ~/Library/Keychains/login.keychain-db
 fi
-echo $PASSWORD | sudo docker login ghcr.io -u $USERNAME --password-stdin
+echo $PASSWORD | sudo docker login -u $USERNAME --password-stdin
 exit 0
