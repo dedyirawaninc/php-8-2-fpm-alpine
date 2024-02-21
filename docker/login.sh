@@ -12,6 +12,8 @@ echo [$USERNAME] [$PASSWORD]
 TYPE=$(uname -s | cut -d '_' -f 1) && echo [$TYPE]
 if [ "$TYPE" == "Darwin" ]; then
   security -v unlock-keychain ~/Library/Keychains/login.keychain-db
+  echo $PASSWORD | docker login docker.io -u $USERNAME --password-stdin
+else
+  echo $PASSWORD | sudo docker login docker.io -u $USERNAME --password-stdin
 fi
-echo $PASSWORD | sudo docker login -u $USERNAME --password-stdin
 exit 0

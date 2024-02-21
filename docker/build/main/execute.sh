@@ -28,15 +28,29 @@ rm ./${BUILD}
 cp ./docker/build/${CURRDIR00}/${BUILD} ./${BUILD}
 cat ./${BUILD}
 ls -al
-# ERROR [internal] load metadata for docker.io
-if [ -f ~/.docker/config.json ]; then
-  sudo rm  ~/.docker/config.json
+if [ "$TYPE" == "Darwin" ]; then
+  # ERROR [internal] load metadata for docker.io
+  if [ -f ~/.docker/config.json ]; then
+    rm  ~/.docker/config.json
+  else
+    mkdir ~/.docker
+  fi
+  cp ./docker/config.json ~/.docker/config.json
+  chmod 755  ~/.docker/config.json
+  docker build --file $BUILD --rm --tag $IMAGE .
+  docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")
+  docker images
 else
-  sudo mkdir ~/.docker
+  # ERROR [internal] load metadata for docker.io
+  if [ -f ~/.docker/config.json ]; then
+    sudo rm  ~/.docker/config.json
+  else
+    sudo mkdir ~/.docker
+  fi
+  sudo cp ./docker/config.json ~/.docker/config.json
+  sudo chmod 755  ~/.docker/config.json
+  sudo docker build --file $BUILD --rm --tag $IMAGE .
+  sudo docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")
+  sudo docker images
 fi
-sudo cp ./docker/config.json ~/.docker/config.json
-sudo chmod 755  ~/.docker/config.json
-sudo docker build --file $BUILD --rm --tag $IMAGE .
-sudo docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")
-sudo docker images
 exit 0
