@@ -17,8 +17,6 @@ RUN apk add --update --no-cache libzip-dev
 RUN apk add --update --no-cache make
 RUN apk add --update --no-cache pcre-dev
 
-RUN docker-php-ext-configure opcache --enable-opcache
-
 RUN docker-php-ext-install exif
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install intl
@@ -27,6 +25,8 @@ RUN docker-php-ext-install opcache
 RUN docker-php-ext-install zip
 
 RUN printf "\n" | pecl install -o -f imagick
+
+RUN docker-php-ext-configure opcache --enable-opcache
 
 RUN docker-php-ext-enable imagick
 RUN docker-php-ext-enable mysqli
