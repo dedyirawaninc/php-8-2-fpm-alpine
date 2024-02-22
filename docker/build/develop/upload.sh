@@ -30,8 +30,10 @@ if [ "$TYPE" == "Darwin" ]; then
   security -v unlock-keychain ~/Library/Keychains/login.keychain-db
   echo $PASSWORD | docker login docker.io -u $USERNAME --password-stdin
   docker push $IMAGE
+  docker push $IMAGE
 else
   echo $PASSWORD | sudo docker login docker.io -u $USERNAME --password-stdin
+  sudo docker push $IMAGE
   sudo docker push $IMAGE
 fi
 exit 0
