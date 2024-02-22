@@ -38,7 +38,7 @@ if [ "$TYPE" == "Darwin" ]; then
   cp ./docker/config.json ~/.docker/config.json
   chmod 755  ~/.docker/config.json
   docker build --file $BUILD --rm --tag $IMAGE .
-  docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")
+  docker rmi -f $(docker images | grep "<none>" | awk "{print \$3}")
   docker images
 else
   # ERROR [internal] load metadata for docker.io
