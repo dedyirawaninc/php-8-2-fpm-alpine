@@ -1,7 +1,7 @@
 version: '2'
 services:
   php-fpm:
-    image: dedyirawaninc/php-8-2-fpm-alpine:develop
+    image: dedyirawaninc/php_8_2_fpm_alpine:develop
     environment:
       TZ: Asia/Jakarta
     stdin_open: true
