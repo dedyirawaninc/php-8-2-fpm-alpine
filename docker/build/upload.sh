@@ -13,26 +13,23 @@ echo [$BASEDIR02] [$CURRDIR02]
 echo [$BASEDIR03] [$CURRDIR03]
 echo "......."
 cd $BASEDIR00 && cd ../../
+BRNCH=$(git rev-parse --abbrev-ref HEAD) && echo [$BRNCH]
 COMPA=$(echo $FILE | cut -d '-' -f 1)
 GROUP=$(echo $FILE | cut -d '-' -f 2)
-IMAGE=dedyirawaninc/${CURRDIR03} && echo $IMAGE
+IMAGE=${CURRDIR03}/${CURRDIR02//"-"/"_"} && echo [$IMAGE]
 if [ "$COMPA" != "$GROUP" ]; then
-  IMAGE=${IMAGE}_${GROUP}:${CURRDIR00}
+  IMAGE=${IMAGE}_${GROUP}:${BRNCH}
 else
-  IMAGE=${IMAGE}:${CURRDIR00}
+  IMAGE=${IMAGE}:${BRNCH}
 fi
-echo [$CURRDIR00] [$GROUP] [$IMAGE]
-PASSWORD=$(< ./password.txt)
-USERNAME=$(< ./username.txt)
-echo [$USERNAME] [$PASSWORD]
+echo [$BRNCH] [$GROUP] [$IMAGE]
 TYPE=$(uname -s | cut -d '_' -f 1) && echo [$TYPE]
 if [ "$TYPE" == "Darwin" ]; then
-  security -v unlock-keychain ~/Library/Keychains/login.keychain-db
-  echo $PASSWORD | docker login docker.io -u $USERNAME --password-stdin
+  ~/commands/docker/login/docker-io.sh $BRNCH
   docker push $IMAGE
   docker push $IMAGE
 else
-  echo $PASSWORD | sudo docker login docker.io -u $USERNAME --password-stdin
+  ~/commands/docker/login/docker-io.sh $BRNCH
   sudo docker push $IMAGE
   sudo docker push $IMAGE
 fi
