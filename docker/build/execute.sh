@@ -12,20 +12,19 @@ echo [$BASEDIR01] [$CURRDIR01]
 echo [$BASEDIR02] [$CURRDIR02]
 echo [$BASEDIR03] [$CURRDIR03]
 echo "......."
-cd $BASEDIR00 && cd ../../../
+cd $BASEDIR00 && cd ../../
+BRNCH=$(git rev-parse --abbrev-ref HEAD) && echo [$BRNCH]
 BUILD="Dockerfile"
 COMPA=$(echo $FILE | cut -d '-' -f 1)
 GROUP=$(echo $FILE | cut -d '-' -f 2)
-IMAGE=dedyirawaninc/${CURRDIR03} && echo $IMAGE
+IMAGE=${CURRDIR03}/${CURRDIR02//"-"/"_"} && echo [$IMAGE]
 if [ "$COMPA" != "$GROUP" ]; then
   BUILD=${BUILD}-${GROUP}
-  IMAGE=${IMAGE}_${GROUP}:${CURRDIR00}
+  IMAGE=${IMAGE}_${GROUP}:${BRNCH}
 else
-  IMAGE=${IMAGE}:${CURRDIR00}
+  IMAGE=${IMAGE}:${BRNCH}
 fi
-echo [$BUILD] [$CURRDIR00] [$GROUP] [$IMAGE]
-rm ./${BUILD}
-cp ./docker/build/${CURRDIR00}/${BUILD} ./${BUILD}
+echo [$BUILD] [$BRNCH] [$GROUP] [$IMAGE]
 cat ./${BUILD}
 ls -al
 if [ "$TYPE" == "Darwin" ]; then
