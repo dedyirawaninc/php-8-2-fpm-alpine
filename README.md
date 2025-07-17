@@ -2,21 +2,16 @@
 
 Base image from php:8.2-fpm-alpine
 
-# Create docker hub token for password and username
+## Create docker hub token for password and username
 
 sudo nano ./docker/token/password.txt
 sudo nano ./docker/token/username.txt
 
-# Login into docker hub
+## Login into docker hub
 
 ./docker/login.sh
 
-# Build to execute and upload develop branch
+## Build to execute and upload
 
-./docker/build/develop/execute.sh
-./docker/build/develop/uplaod.sh
-
-# Build to execute and upload main branch
-
-./docker/build/main/execute.sh
-./docker/build/main/uplaod.sh
+./docker/build/execute.sh
+./docker/build/uplaod.sh
