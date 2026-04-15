@@ -14,11 +14,13 @@ RUN apk add --update --no-cache libpng-dev
 RUN apk add --update --no-cache libtool
 RUN apk add --update --no-cache libzip-dev
 RUN apk add --update --no-cache make
+RUN apk add --update --no-cache oniguruma-dev
 RUN apk add --update --no-cache pcre-dev
 
 RUN docker-php-ext-install exif
 RUN docker-php-ext-install gd
 RUN docker-php-ext-install intl
+RUN docker-php-ext-install mbstring
 RUN docker-php-ext-install mysqli
 RUN docker-php-ext-install opcache
 RUN docker-php-ext-install pdo_mysql
